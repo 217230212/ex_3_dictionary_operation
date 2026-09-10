@@ -6,93 +6,162 @@ student = {
     "city": "Nanjing",
     "gpa": 3.6
 }
+ 
 
+print("=" * 37)
+print("        STUDENT RECORD")
+print("=" * 37)
+for key, value in student.items():
+    print(f"{key.replace('_', ' ').title()}: {value}")
+print("=" * 37)
+print()
+ 
+ 
 
-# First, display the complete record using for loop, printing and some string formatting only
+if "email" not in student:
+    email = input("Email not found. Please enter the student's email: ").strip()
+    student["email"] = email
+print()
+ 
+ 
 
+while True:
+    new_city = input(f"Current city is '{student['city']}'. Enter the new city: ").strip()
+    if new_city == "":
+        print("Error: City cannot be empty. Please try again.")
+    else:
+        student["city"] = new_city
+        print(f"City updated to '{new_city}'.")
+        break
+print()
+ 
+ 
 
+phone = student.get("phone")
+if phone is None:
+    print("Phone number not found.")
+else:
+    print(f"Phone: {phone}")
+print()
+ 
 
-# Check if there's a key called 'email'. If not, ask the user to enter an email
+phone_input = input("Enter phone number for contact: ").strip()
+student["contact"] = {
+    "phone": phone_input,
+    "email": student.get("email", "")
+}
+print(f"Contact info added: {student['contact']}")
+print()
+ 
+ 
 
+student["courses"] = {
+    "Python": 88,
+    "Databases": 91,
+    "Software Engineering": 84
+}
+print(f"Courses added: {student['courses']}")
+print()
+ 
+ 
 
+total = 0
+count = 0
+for course, score in student["courses"].items():
+    total += score
+    count += 1
+average_score = total / count
+print(f"Average score: {average_score:.1f}")
+print()
+ 
 
-# Ask the user to enter a new city, and update the existing city with this new one
-# Make sure the new city is not an empty string
+if average_score >= 90:
+    student["academic_status"] = "Excellent"
+elif average_score >= 75:
+    student["academic_status"] = "Good"
+elif average_score >= 60:
+    student["academic_status"] = "Pass"
+else:
+    student["academic_status"] = "At Risk"
+print(f"Academic status: {student['academic_status']}")
+print()
+ 
 
+print("=" * 37)
+print("Search for a Course")
+print("=" * 37)
+search_course = input("Enter the course name to search: ").strip()
+if search_course in student["courses"]:
+    print(f"  Course: {search_course}")
+    print(f"  Score: {student['courses'][search_course]}")
+else:
+    print("  Course not found.")
+print()
+ 
+ 
 
+print("=" * 37)
+print("Update a Course Score")
+print("=" * 37)
+update_course = input("Enter the course name to update: ").strip()
+if update_course not in student["courses"]:
+    print(f"  Course '{update_course}' not found.")
+else:
+    new_score_str = input(f"Enter the new score for {update_course}: ").strip()
+    try:
+        new_score = int(new_score_str)
+    except ValueError:
+        try:
+            new_score = float(new_score_str)
+        except ValueError:
+            print("  Error: Score must be a number.")
+            new_score = None
+    if new_score is not None:
+        if new_score < 0 or new_score > 100:
+            print("  Error: Score must be between 0 and 100.")
+        else:
+            old_score = student["courses"][update_course]
+            student["courses"][update_course] = new_score
+            print(f"  '{update_course}' score updated from {old_score} to {new_score}.")
+ 
 
-# Check if there's 'phone' key in the dictionary. If not, print a message saying "Phone number not found."
-# Use the get() method
+            total = 0
+            count = 0
+            for course, score in student["courses"].items():
+                total += score
+                count += 1
+            average_score = total / count
 
+            if average_score >= 90:
+                student["academic_status"] = "Excellent"
+            elif average_score >= 75:
+                student["academic_status"] = "Good"
+            elif average_score >= 60:
+                student["academic_status"] = "Pass"
+            else:
+                student["academic_status"] = "At Risk"
+ 
+            print(f"  Recalculated average score: {average_score:.1f}")
+            print(f"  Updated academic status: {student['academic_status']}")
+print()
+ 
+ 
 
-
-# Add a new key called 'contact' to the dictionary, which is itself a dictionary containing two keys: 'phone' and 'email'.
-
-
-
-
-# Add another key called 'courses' to the dictionary, which is itself a dictionary containing three keys: 'Python', 'Databases', and 'Software Engineering', with 88, 91, and 84 as their corresponding scores
-
-
-
-# Calculate the average score for the student without built-in functions like sum(). Use a for loop instead. 
-
-
-
-# Add a new key called 'academic_status' to the dictionary
-# It should be a string that indicates the student's academic status based on the average score. 
-# If the score is >= 90, the status should be "Excellent".
-# If the score is >= 75, the status should be "Good".
-# If the score is >= 60, the status should be "Pass".
-# If the score is < 60, the status should be "At Risk".
-
-
-
-
-# Add the logic to search for a course. 
-# If the course is found, print the course name and score. If not, print "Course not found".
-
-
-
-
-# Add the logic to update a course score. 
-# Ask the user to enter the course name and the new score. 
-# If the course is found, then update the score and print a message indicating the change.
-# While adding the new course, make sure the new score is a number between 0 and 100
-
-
-
-
-# Recaclculate the average score and update the academic status after the course score has been updated.
-
-
-
-
-# Display the final formatted student record with all the updated information, including the average score and academic status.
-# It should look like the following: 
-""" 
-=====================================
-        STUDENT RECORD
-=====================================
-
-Name: Alice Wong
-Student ID: ST1024
-Age: 21
-Program: Software Engineering
-City: Shanghai
-GPA: 3.6
-
-CONTACT
-Phone: 13800001111
-Email: alice.wong@university.edu
-
-COURSE RESULTS
-Python: 88
-Databases: 91
-Software Engineering: 84
-
-Average Score: 87.7
-Academic Status: Good
-
-===================================== """
-
+print("=" * 37)
+print("        STUDENT RECORD")
+print("=" * 37)
+print(f"Name: {student['name']}")
+print(f"Student ID: {student['student_id']}")
+print(f"Age: {student['age']}")
+print(f"Program: {student['program']}")
+print(f"City: {student['city']}")
+print(f"GPA: {student['gpa']}")
+print("CONTACT")
+print(f"Phone: {student['contact']['phone']}")
+print(f"Email: {student['contact']['email']}")
+print("COURSE RESULTS")
+for course, score in student["courses"].items():
+    print(f"{course}: {score}")
+print(f"Average Score: {average_score:.1f}")
+print(f"Academic Status: {student['academic_status']}")
+print("=" * 37)
